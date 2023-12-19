@@ -1,3 +1,7 @@
+using ApiExample.Data;
+using ApiExample.Interfaces;
+using ApiExample.Repositories;
+
 namespace ApiExample
 {
     public class Program
@@ -12,6 +16,8 @@ namespace ApiExample
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<CharacterContext>();
+            builder.Services.AddTransient<ICharactersRepository, CharactersRepository>();
 
             var app = builder.Build();
 

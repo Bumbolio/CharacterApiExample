@@ -1,4 +1,5 @@
 ﻿using ApiExample.Classes;
+using ApiExample.Interfaces;
 using ApiExample.Models;
 using ApiExample.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -10,9 +11,11 @@ namespace ApiExample.Controllers
     [ApiController]
     public class VillainsController : ControllerBase
     {
-        private CharactersRepository _charactersRepository = new CharactersRepository();
+        private ICharactersRepository _charactersRepository;
 
-        public VillainsController() { }
+        public VillainsController(ICharactersRepository charactersRepository) { 
+            _charactersRepository = charactersRepository;
+        }
 
         [HttpGet]
         public List<Villain> Index()

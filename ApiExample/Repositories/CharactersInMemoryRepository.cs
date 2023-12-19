@@ -7,22 +7,21 @@ using Microsoft.Extensions.FileProviders;
 
 namespace ApiExample.Repositories
 {
-    public class CharactersRepository : ICharactersRepository
+    public class CharactersInMemoryRepository : ICharactersRepository
     {
-        public CharacterContext ctx;
-        public CharactersRepository(CharacterContext _ctx)
+        private List<CharacterBase> characters { get; set; } = new List<CharacterBase>();
+        public CharactersInMemoryRepository()
         {
-            ctx = _ctx;
         }
 
         public List<CharacterBase> GetAllCharacters()
         {
-            return ctx.Characters.ToList();
+            return characters;
         }
 
         public List<T> GetAllCharactersOfType<T>() where T : CharacterBase
         {
-            return ctx.Characters.OfType<T>().ToList();
+            return characters.OfType<T>().ToList();
         }
 
         public List<Hero> GetAllHeroes()
@@ -37,19 +36,16 @@ namespace ApiExample.Repositories
 
         public void AddCharacter(CharacterBase character)
         {
-            ctx.Characters.Add(character);
-            ctx.SaveChanges();
+            characters.Add(character);
         }
 
         public void RemoveCharacter(CharacterBase character)
         {
-            var characterToDelete = ctx.Characters.Where(c => c.Id == character.Id).FirstOrDefault();
+            var characterToDelete = characters.Where(c => c.Id == character.Id).FirstOrDefault();
 
             if (characterToDelete != null)
             {
-                ctx.Characters.Remove(characterToDelete);
-                ctx.SaveChanges();
-                return;
+                characters.Remove(characterToDelete);
             }
 
         }
